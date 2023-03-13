@@ -59,7 +59,9 @@ class LoginController extends GetxController with LoginRepository {
       numberError("");
       usernameError("");
       var numberVal = number.value;
-      number.value = (number.value.indexOf(code) == -1)? code + number.value: number.value;
+      number.value = (number.value.indexOf(code) == -1)
+          ? code + number.value
+          : number.value;
       OTPRequest otpReqObj = OTPRequest();
       otpReqObj.contactNo = number.value;
       otpReqObj.userName = "User";
@@ -88,21 +90,19 @@ class LoginController extends GetxController with LoginRepository {
     controller.start.value = 30;
     controller.startTimer();
     OTPRequest otpRequest = new OTPRequest();
-    otpRequest.contactNo = preferenceService.getString(TextConst.mobile_number).toString();
+    otpRequest.contactNo =
+        preferenceService.getString(TextConst.mobile_number).toString();
     otpRequest.userName = preferenceService.getString(TextConst.user_name);
-    requestOtp(otpRequest,
-        (loginResponse) {
+    requestOtp(otpRequest, (loginResponse) {
       if (loginResponse.status == 200) {
         isLoading.value = false;
-        AppUtils.bottomSnackbar(
-            "Message", "OTP sent successfully");
+        AppUtils.bottomSnackbar("Message", "OTP sent successfully");
         preferenceService.setVerificationToken(loginResponse.data!);
         preferenceService.setString(TextConst.mobile_number, number.value);
         Get.offAndToNamed(AppRoute.verification);
-      }else{
+      } else {
         isLoading.value = false;
-        AppUtils.bottomSnackbar(
-            "Message", "Something went wrong!");
+        AppUtils.bottomSnackbar("Message", "Something went wrong!");
       }
     }, (errorData) {
       OtpResponse errorResponse = OtpResponse.fromJson(errorData.data);

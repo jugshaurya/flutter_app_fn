@@ -56,8 +56,6 @@ class OtpVerificationController extends GetxController
     });
   }
 
-
-
   @override
   void codeUpdated() {
     // TODO: implement codeUpdated
@@ -73,11 +71,12 @@ class OtpVerificationController extends GetxController
       userProfileResponse = userResponse;
       preferenceService.setString(
           TextConst.full_name, userProfileResponse!.userInfoModal!.fullName!);
-      if(userProfileResponse!.userInfoModal!.fullName!.isNotEmpty){
-        preferenceService.setInt(TextConst.manufacturer_id, userProfileResponse!.userInfoModal!.manufactureId ?? 1);
-        Get.offAndToNamed(AppRoute.factoryDashboard, arguments: {"pageState":"normal"});
-      }
-      else{
+      if (userProfileResponse!.userInfoModal!.fullName!.isNotEmpty) {
+        preferenceService.setInt(TextConst.manufacturer_id,
+            userProfileResponse!.userInfoModal!.manufactureId ?? 1);
+        Get.offAndToNamed(AppRoute.factoryDashboard,
+            arguments: {"pageState": "normal"});
+      } else {
         Get.offAndToNamed(AppRoute.profileRoleScreen);
       }
     } else if (userResponse != null && userResponse.status == 401) {
@@ -96,7 +95,8 @@ class OtpVerificationController extends GetxController
       VerifyOtpRequest verifyOtpRequest = VerifyOtpRequest();
       verifyOtpRequest.contactNo =
           preferenceService.getString(TextConst.mobile_number);
-      verifyOtpRequest.username = preferenceService.getString(TextConst.user_name);
+      verifyOtpRequest.username =
+          preferenceService.getString(TextConst.user_name);
       verifyOtpRequest.otp = otpValue.text;
       verifyOtpRequest.verficationCode =
           preferenceService.getVerificationToken();
@@ -110,8 +110,9 @@ class OtpVerificationController extends GetxController
           if (verifyOtpResponse.data == null) {
             AppUtils.bottomSnackbar("Warning", "Please verify OTP");
           } else {
-            preferenceService
-                .setAuthToken('Bearer ' + verifyOtpResponse.data!.token!);
+            preferenceService.setAuthToken('Bearer testtingnirngi');
+            // preferenceService
+            //     .setAuthToken('Bearer ' + verifyOtpResponse.data!.token!);
             getUserProfileDetails();
           }
         }
@@ -135,18 +136,17 @@ class OtpVerificationController extends GetxController
       verifyOtpRequest.manufacturerId = manufacturerId;
       verifyOtpRequest.contactNo =
           preferenceService.getString(TextConst.mobile_number);
-      verifyOtpRequest.username = preferenceService.getString(TextConst.user_name);
+      verifyOtpRequest.username =
+          preferenceService.getString(TextConst.user_name);
       verifyOtpRequest.otp = otpValue.text;
       verifyOtpRequest.verficationCode =
           preferenceService.getVerificationToken();
-
     }
     isLoading.value = false;
   }
 
   void listenOtp() async {
-    SmsAutoFill().getAppSignature.then((String result) {
-    });
+    SmsAutoFill().getAppSignature.then((String result) {});
     await SmsAutoFill().unregisterListener();
     listenForCode();
     await SmsAutoFill().listenForCode;
