@@ -66,6 +66,8 @@ class _FsMultiSelectDropdownState extends State<FsMultiSelectDropdown> {
       case TypeValue.manufacturingStatusValues:
         productTypeList = widget.product.manufacturingStatusValues ?? [];
         break;
+      default:
+        break;
     }
   }
 
@@ -125,7 +127,8 @@ class _FsMultiSelectDropdownState extends State<FsMultiSelectDropdown> {
                   // readOnly: true,
                   decoration: InputDecoration(
                       hintText: 'Select',
-                      hintStyle: AppTextStyle.normalBlackGrey16.copyWith(color:const Color(0XFF979797)),
+                      hintStyle: AppTextStyle.normalBlackGrey16
+                          .copyWith(color: const Color(0XFF979797)),
                       enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: ColorConst.lightGrey)),
                       disabledBorder: const UnderlineInputBorder(

@@ -34,7 +34,8 @@ class FsMultiSegmentSelectDropdown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FsMultiSegmentSelectDropdown> createState() => _FsSingleSelectDropdownState();
+  State<FsMultiSegmentSelectDropdown> createState() =>
+      _FsSingleSelectDropdownState();
 }
 
 class _FsSingleSelectDropdownState extends State<FsMultiSegmentSelectDropdown> {
@@ -47,9 +48,11 @@ class _FsSingleSelectDropdownState extends State<FsMultiSegmentSelectDropdown> {
   getProductTypeValues() async {
     switch (widget.type) {
       case TypeValue.segmentTypeValues:
-        productTypeList =
-            widget.product != null ?
-            widget.product!.segmentTypeValues ?? []: [];
+        productTypeList = widget.product != null
+            ? widget.product!.segmentTypeValues ?? []
+            : [];
+        break;
+      default:
         break;
     }
   }
@@ -69,78 +72,91 @@ class _FsSingleSelectDropdownState extends State<FsMultiSegmentSelectDropdown> {
 
   @override
   Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      /*Text(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /*Text(
             widget.profileSectionsAttributes.name!,
             style: AppTextStyle.normalBlackGrey14,
           ),*/
-      // const SizedBox(height: 4),
-      InkWell(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          SharedPreferenceService preferenceService = Get.find<SharedPreferenceService>();
-          var garmentList = preferenceService.getString(TextConst.garmentTypes) ?? "";
-          if(widget.type == TypeValue.segmentTypeValues){
-            productTypeList =
-                widget.product != null && widget.product!.segmentTypeValues != null && garmentList != "" ? widget.product!.segmentTypeValues!.where((element) => garmentList.indexOf(element.garmentTypeId.toString()) != -1).toList() : [];
-          }
-
-          showBottomSheet(productTypeList);
-          }, //widget.callback(),
-        child: IgnorePointer(
-          child: TextFormField(
-            controller: controller,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                if (widget.profileSectionsAttributes.isMandatory!) {
-                  return 'Select ${widget.profileSectionsAttributes.name}';
-                }
+          // const SizedBox(height: 4),
+          InkWell(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              SharedPreferenceService preferenceService =
+                  Get.find<SharedPreferenceService>();
+              var garmentList =
+                  preferenceService.getString(TextConst.garmentTypes) ?? "";
+              if (widget.type == TypeValue.segmentTypeValues) {
+                productTypeList = widget.product != null &&
+                        widget.product!.segmentTypeValues != null &&
+                        garmentList != ""
+                    ? widget.product!.segmentTypeValues!
+                        .where((element) =>
+                            garmentList
+                                .indexOf(element.garmentTypeId.toString()) !=
+                            -1)
+                        .toList()
+                    : [];
               }
-              return null;
-            },
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            // enabled: true,
-            // readOnly: true,
-            decoration: InputDecoration(
-                label: RichText(
-                  text: TextSpan(
-                    text: widget.label,
-                    style: AppTextStyle.normalhintGrey14,
-                    children: [
-                      TextSpan(
-                          text: widget.profileSectionsAttributes.isMandatory! ? ' *' : "",
-                          style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 16))
-                    ],),
-                ),
-                hintText: 'Select',
-                hintStyle: AppTextStyle.normalhintGrey12,
-                errorBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: ColorConst.redPrimary)),
-                focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: ColorConst.lightGrey)),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: ColorConst.lightGrey)),
-                disabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: ColorConst.lightGrey)),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                floatingLabelStyle:
-                MaterialStateTextStyle.resolveWith((Set<MaterialState> states) {
-                  final Color color = states.contains(MaterialState.error)
-                      ? ColorConst.lightGrey
-                      : ColorConst.lightGrey;
-                  return TextStyle(color: color, letterSpacing: 1.3);
-                }),
-                suffixIcon: SvgPicture.asset(ImageConst.arrowDownImage,
-                    height: 16, width: 8, fit: BoxFit.scaleDown)),
+
+              showBottomSheet(productTypeList);
+            }, //widget.callback(),
+            child: IgnorePointer(
+              child: TextFormField(
+                controller: controller,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    if (widget.profileSectionsAttributes.isMandatory!) {
+                      return 'Select ${widget.profileSectionsAttributes.name}';
+                    }
+                  }
+                  return null;
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                // enabled: true,
+                // readOnly: true,
+                decoration: InputDecoration(
+                    label: RichText(
+                      text: TextSpan(
+                        text: widget.label,
+                        style: AppTextStyle.normalhintGrey14,
+                        children: [
+                          TextSpan(
+                              text:
+                                  widget.profileSectionsAttributes.isMandatory!
+                                      ? ' *'
+                                      : "",
+                              style: const TextStyle(
+                                  color: Colors.red, fontSize: 16))
+                        ],
+                      ),
+                    ),
+                    hintText: 'Select',
+                    hintStyle: AppTextStyle.normalhintGrey12,
+                    errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: ColorConst.redPrimary)),
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: ColorConst.lightGrey)),
+                    enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: ColorConst.lightGrey)),
+                    disabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: ColorConst.lightGrey)),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                        (Set<MaterialState> states) {
+                      final Color color = states.contains(MaterialState.error)
+                          ? ColorConst.lightGrey
+                          : ColorConst.lightGrey;
+                      return TextStyle(color: color, letterSpacing: 1.3);
+                    }),
+                    suffixIcon: SvgPicture.asset(ImageConst.arrowDownImage,
+                        height: 16, width: 8, fit: BoxFit.scaleDown)),
+              ),
+            ),
           ),
-        ),
-      ),
-      const SizedBox(height: 20),
-    ],
-  );
+          const SizedBox(height: 20),
+        ],
+      );
 
   showBottomSheet(List<ProductTypeValues> productTypeList) {
     showModalBottomSheet(
@@ -176,12 +192,12 @@ class _FsSingleSelectDropdownState extends State<FsMultiSegmentSelectDropdown> {
   String _setDropdownValue(String value, ProductTypeValues val) {
     if (selectedValue.isEmpty) {
       selectedList.add(value);
-      selectedIdList.add({"id":val.id, "name": val.name!});
+      selectedIdList.add({"id": val.id, "name": val.name!});
     } else {
-      selectedIdList.add({"id":val.id, "name": val.name!});
-      if(selectedList.contains(value)){
+      selectedIdList.add({"id": val.id, "name": val.name!});
+      if (selectedList.contains(value)) {
         selectedList.remove(value);
-      }else{
+      } else {
         selectedList.add(value);
       }
     }
